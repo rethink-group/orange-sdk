@@ -179,14 +179,6 @@ class OrangeBusinessRules
     }
 
     /**
-     * @return \RethinkGroup\SDK\Resource\Organization
-     */
-    public function organizations()
-    {
-        return $this->getResource('Organization');
-    }
-
-    /**
      * Returns the requested class name, optionally using a cached array so no
      * object is instantiated more than once during a request.
      *
@@ -203,6 +195,22 @@ class OrangeBusinessRules
         }
 
         return $this->resources[$class];
+    }
+
+    /**
+     * @return \RethinkGroup\SDK\Resource\Organization
+     */
+    public function organizations()
+    {
+        return $this->getResource('Organization');
+    }
+
+    /**
+     * @return \RethinkGroup\SDK\Resource\Address
+     */
+    public function addresses()
+    {
+        return $this->getResource('Address');
     }
 
 }

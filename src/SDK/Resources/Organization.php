@@ -41,9 +41,14 @@ class Organization extends AbstractResource
      * 
      * @param int $id The organization's primary key.
      * @param array $data The address data.
+     * @param bool $force Whether to check for address validation or not.
      */
-    public function addAddress(int $id, array $data)
+    public function addAddress(int $id, array $data, bool $force = false)
     {
+        if ($force) {
+            $data['not_validated'] = true;
+        }
+
         return $this->client->post("organizations/$id/addresses", $data);
     }
 }
