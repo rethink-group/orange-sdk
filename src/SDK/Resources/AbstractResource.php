@@ -1,11 +1,11 @@
 <?php
 
-namespace RethinkGroup\SDK\Api;
+namespace RethinkGroup\SDK\Resources;
 
 use RethinkGroup\SDK\OrangeBusinessRules;
 use RethinkGroup\SDK\Contracts\Resource as Contract;
 
-abstract class Resource implements Contract
+abstract class AbstractResource implements Contract
 {
     public function __construct(OrangeBusinessRules $client)
     {

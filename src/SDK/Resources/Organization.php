@@ -1,8 +1,8 @@
 <?php
 
-namespace RethinkGroup\SDK\Api;
+namespace RethinkGroup\SDK\Resources;
 
-class Organization extends Resource
+class Organization extends AbstractResource
 {
     /**
      * {@inheritdoc}

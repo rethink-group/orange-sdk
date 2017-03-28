@@ -26,7 +26,10 @@ class OrangeBusinessRules
      */
     protected $httpClient;
 
-    protected $apis = [];
+    /** 
+     * @var array
+     */
+    protected $resources = [];
 
     /**
      * @param array $config
@@ -38,8 +41,6 @@ class OrangeBusinessRules
         if (isset($config['clientId'])) $this->clientId = $config['clientId'];
 
         if (isset($config['clientSecret'])) $this->clientSecret = $config['clientSecret'];
-
-        $this->apis = ['organizations'];
     }
 
     /**
@@ -178,11 +179,11 @@ class OrangeBusinessRules
     }
 
     /**
-     * @return \RethinkGroup\Api\Organization
+     * @return \RethinkGroup\SDK\Resource\Organization
      */
     public function organizations()
     {
-        return $this->getApi('Organization');
+        return $this->getResource('Organization');
     }
 
     /**
@@ -192,16 +193,16 @@ class OrangeBusinessRules
      * @param string $class
      * @return mixed
      */
-    public function getApi($class)
+    public function getResource($class)
     {
-        $class = '\RethinkGroup\SDK\Api\\' . $class;
+        $class = '\RethinkGroup\SDK\Resources\\' . $class;
 
-        if ( ! array_key_exists($class, $this->apis))
+        if ( ! array_key_exists($class, $this->resources))
         {
-            $this->apis[$class] = new $class($this);
+            $this->resources[$class] = new $class($this);
         }
 
-        return $this->apis[$class];
+        return $this->resources[$class];
     }
 
 }
