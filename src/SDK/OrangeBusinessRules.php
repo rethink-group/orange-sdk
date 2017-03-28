@@ -147,10 +147,10 @@ class OrangeBusinessRules
         ];
 
         $url = $this->url . "/" . $url;
-
+        
         $response = $client->request($method, $url, $fullParams)->getBody()->getContents();
 
-        return json_decode($response, true)['data'];
+        return json_decode($response, true);
     }
 
     public function get(string $url, array $params = [])
@@ -173,9 +173,9 @@ class OrangeBusinessRules
         return $this->request('PUT', $url, $params);
     }
 
-    public function delete(string $url, array $params = [])
+    public function delete(string $url)
     {
-        return $this->request('DELETE', $url, $params);
+        return $this->request('DELETE', $url);
     }
 
     /**

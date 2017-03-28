@@ -26,9 +26,9 @@ class Address extends AbstractResource
     public function update(int $id, array $data)
     {
         if (count($data) > 1) {
-            return $this->client->put("addresses/$id", $data);
+            return $this->client->put("addresses/$id", $data)['data'];
         } else {
-            return $this->client->patch("addresses/$id", $data);
+            return $this->client->patch("addresses/$id", $data)['data'];
         }
     }
 
@@ -37,6 +37,6 @@ class Address extends AbstractResource
      */
     public function delete(int $id)
     {
-        return $this->client->delete("addresses/$id");
+        //
     }
 }

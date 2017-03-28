@@ -4,11 +4,19 @@ namespace Tests;
 
 class OrganizationTest extends TestCase
 {
+    protected $address;
+    protected $organization;
+
+    protected function getTestOrganization()
+    {
+        $this->organization = $this->obr->organizations()->find(1)['organization'];
+    }
+
     public function testCanRetrieveOrganizationById()
     {
-        $org = $this->obr->organizations()->find(1);
+        $this->getTestOrganization();
         
-        $this->assertEquals($org['organization']['id'], 1);
+        $this->assertEquals($this->organization['id'], 1);
     }
 
     public function testCanStoreUnvalidatedAddress()
@@ -27,5 +35,18 @@ class OrganizationTest extends TestCase
         $address = $this->obr->organizations()->addAddress(1, $data, true);
         
         $this->assertNotEmpty($address['address']);
+    }
+
+    public function testCanDisassociateAddressFromOrganization()
+    {
+        $this->getTestOrganization();
+
+        $organizationId = $this->organization['id'];
+        
+        $addressId = $this->organization['addresses'][0]['id'];
+
+        $response = $this->obr->organizations()->disassociateAddress($organizationId, $addressId);
+            
+        $this->assertTrue($response);
     }
 }

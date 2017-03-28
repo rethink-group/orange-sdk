@@ -9,7 +9,7 @@ class Organization extends AbstractResource
      */
     public function find(int $id)
     {
-        return $this->client->get("organizations/$id");
+        return $this->client->get("organizations/$id")['data'];
     }
 
     /**
@@ -42,6 +42,7 @@ class Organization extends AbstractResource
      * @param int $id The organization's primary key.
      * @param array $data The address data.
      * @param bool $force Whether to check for address validation or not.
+     * @return array The created address.
      */
     public function addAddress(int $id, array $data, bool $force = false)
     {
@@ -49,6 +50,19 @@ class Organization extends AbstractResource
             $data['not_validated'] = true;
         }
 
-        return $this->client->post("organizations/$id/addresses", $data);
+        return $this->client->post("organizations/$id/addresses", $data)['data'];
+    }
+
+    /**
+     * Disassociate with the specified organization.
+     * 
+     * @param int $organizationId   The organization's primary key.
+     * @param int $addressId        The address's primary key.
+     * @return bool Success of disassociation.
+     */
+    public function disassociateAddress(int $organizationId, int $addressId)
+    {
+        return (bool) $this->client
+           ->delete("organizations/$organizationId/addresses/$addressId")['status'];
     }
 }
