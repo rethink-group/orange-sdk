@@ -4,8 +4,35 @@ namespace RethinkGroup\SDK\Api;
 
 class Organization extends Resource
 {
-    public function find($id)
+    /**
+     * {@inheritdoc}
+     */
+    public function find(int $id)
     {
         return $this->client->get("organizations/$id");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function store(array $data)
+    {
+        //
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(int $id, array $data)
+    {
+        //
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(int $id)
+    {
+        //
     }
 }
