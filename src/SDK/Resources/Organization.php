@@ -35,4 +35,15 @@ class Organization extends AbstractResource
     {
         //
     }
+
+    /**
+     * Create an address and associate with the specified organization.
+     * 
+     * @param int $id The organization's primary key.
+     * @param array $data The address data.
+     */
+    public function addAddress(int $id, array $data)
+    {
+        return $this->client->post("organizations/$id/addresses", $data);
+    }
 }
