@@ -23,8 +23,12 @@ class Address extends AbstractResource
     /**
      * {@inheritdoc}
      */
-    public function update(int $id, array $data)
+    public function update(int $id, array $data, bool $force = false)
     {
+        if ($force) {
+            $data['not_validated'] = true;
+        }
+        
         if (count($data) > 1) {
             return $this->client->put("addresses/$id", $data)['data'];
         } else {
