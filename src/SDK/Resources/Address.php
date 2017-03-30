@@ -9,7 +9,7 @@ class Address extends AbstractResource
      */
     public function find(int $id)
     {
-        //
+        return $this->client->get("addresses/$id")['data'];
     }
 
     /**
