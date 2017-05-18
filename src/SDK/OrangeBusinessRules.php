@@ -213,5 +213,12 @@ class OrangeBusinessRules
         return $this->getResource('Address');
     }
 
+    /**
+     * @return \RethinkGroup\SDK\Resource\Authentication
+     */
+    public function authentication()
+    {
+        return $this->getResource('Authentication');
+    }
 }
 
