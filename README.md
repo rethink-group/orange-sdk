@@ -9,9 +9,8 @@ This SDK makes assists in integrating with Orange Business Rules, the system of 
 2. `composer require rethink-group/orange-sdk:dev-master`
 3. `composer install`
 
-
 ### Adding the repository as a package source
-```
+```json
 "repositories" : [
     {
         "type" : "vcs",
@@ -25,3 +24,23 @@ This SDK makes assists in integrating with Orange Business Rules, the system of 
     }
 ],
 ```
+
+## Usage
+1. Add the following to your `.env` and `.env.example` files, filling in the appropriate values in `.env`:
+
+```
+OBR_URL=http://orange_business_rules.dev/api/v1
+OBR_ID=TESTAPP
+OBR_SECRET=test123
+```
+
+2. In a Laravel application, add the following to your `config/service.php` file:
+
+```php
+'obr' => [
+    'url'  => env('OBR_URL'),
+    'clientId'    => env('OBR_ID'),
+    'clientSecret' => env('OBR_SECRET'),
+],
+```
+

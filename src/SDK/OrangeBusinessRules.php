@@ -26,7 +26,7 @@ class OrangeBusinessRules
      */
     protected $httpClient;
 
-    /** 
+    /**
      * @var array
      */
     protected $resources = [];
@@ -37,7 +37,7 @@ class OrangeBusinessRules
     public function __construct(array $config)
     {
         if (isset($config['url'])) $this->url = $config['url'];
-        
+
         if (isset($config['clientId'])) $this->clientId = $config['clientId'];
 
         if (isset($config['clientSecret'])) $this->clientSecret = $config['clientSecret'];
@@ -147,32 +147,61 @@ class OrangeBusinessRules
         ];
 
         $url = $this->url . "/" . $url;
-        
+
         $response = $client->request($method, $url, $fullParams)->getBody()->getContents();
 
         return json_decode($response, true);
     }
 
+    /**
+     * Make a GET HTTP request.
+     * @param  string $url
+     * @param  array $params
+     * @return mixed
+     */
     public function get(string $url, array $params = [])
     {
         return $this->request('GET', $url, $params);
     }
 
+    /**
+     * Make a POST HTTP request.
+     * @param  string $url
+     * @param  array $params
+     * @return mixed
+     */
     public function post(string $url, array $params = [])
     {
         return $this->request('POST', $url, $params);
     }
 
+    /**
+     * Make a PATCH HTTP request.
+     * @param  string $url
+     * @param  array $params
+     * @return mixed
+     */
     public function patch(string $url, array $params = [])
     {
         return $this->request('PATCH', $url, $params);
     }
 
+    /**
+     * Make a PUT HTTP request.
+     * @param  string $url
+     * @param  array $params
+     * @return mixed
+     */
     public function put(string $url, array $params = [])
     {
         return $this->request('PUT', $url, $params);
     }
 
+    /**
+     * Make a DELETE HTTP request.
+     * @param  string $url
+     * @return mixed
+     */
     public function delete(string $url)
     {
         return $this->request('DELETE', $url);
@@ -198,14 +227,6 @@ class OrangeBusinessRules
     }
 
     /**
-     * @return \RethinkGroup\SDK\Resource\Organization
-     */
-    public function organizations()
-    {
-        return $this->getResource('Organization');
-    }
-
-    /**
      * @return \RethinkGroup\SDK\Resource\Address
      */
     public function addresses()
@@ -220,5 +241,20 @@ class OrangeBusinessRules
     {
         return $this->getResource('Authentication');
     }
-}
 
+    /**
+     * @return \RethinkGroup\SDK\Resource\Organization
+     */
+    public function organizations()
+    {
+        return $this->getResource('Organization');
+    }
+
+    /**
+     * @return \RethinkGroup\SDK\Resource\User
+     */
+    public function users()
+    {
+        return $this->getResource('User');
+    }
+}
