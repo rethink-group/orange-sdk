@@ -29,7 +29,7 @@ class Organization extends AbstractResource
      */
     public function update(int $id, array $data)
     {
-        //
+        return $this->client->patch("organizations/$id", $data)['data'];
     }
 
     /**
