@@ -20,8 +20,15 @@ class TestCase extends PHPUnit_Framework_TestCase
      */
     public function setupOBR()
     {
+        $dotenv = new \Dotenv\Dotenv(__DIR__ . '/..');
+        $dotenv->load();
+
         if (!$this->obr) {
-            $this->obr = new OrangeBusinessRules($config);
+            $this->obr = new OrangeBusinessRules([
+                'url' => getenv('OBR_URL'),
+                'clientId' => getenv('OBR_APP_ID'),
+                'clientSecret' => getenv('OBR_SECRET')
+                ]);
         }
     }
 
