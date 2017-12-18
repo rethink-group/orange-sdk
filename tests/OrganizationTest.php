@@ -49,4 +49,19 @@ class OrganizationTest extends TestCase
             
         $this->assertTrue($response);
     }
+
+    public function testOrganizationNameCanBeUpdated()
+    {
+        $this->getTestOrganization();
+
+        $updatedName = $this->organization['name'] . '!';
+
+        $response = $this->obr->organizations()->update($this->organization['id'], ['name' => $updatedName]);
+
+        $this->assertEquals($response['organization']['name'], $updatedName);
+
+        // Reverse the change
+        $correct = substr($updatedName, 0, strlen($updatedName) - 1);
+        $this->obr->organizations()->update($this->organization['id'], ['name' => $correct]);
+    }
 }
