@@ -11,7 +11,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "guzzlehttp/guzzle": "~6.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "vlucas/phpdotenv": "^2.4"
     },
     "require-dev": {
         "mockery/mockery": "~0.9",
