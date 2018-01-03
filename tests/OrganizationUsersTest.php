@@ -23,8 +23,8 @@ class OrganizationUsersTest extends TestCase
     {
         $this->getTestOrganization();
 
-        $response = $this->obr->organizations()->getUsers($this->organization['id']);
+        $users = $this->obr->organizations()->getUsers($this->organization['id']);
 
-        $this->arrayHasKey($response['data']['users']);
+        $this->assertNotEmpty($users);
     }
 }
