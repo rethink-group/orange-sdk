@@ -78,6 +78,6 @@ class Organization extends AbstractResource
      */
     public function getUsers(int $id)
     {
-        return $this->client->get("organizations/$id/users");
+        return $this->client->get("organizations/$id/users")['data']['users'];
     }
 }
