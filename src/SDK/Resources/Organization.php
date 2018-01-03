@@ -69,4 +69,15 @@ class Organization extends AbstractResource
         return (bool) $this->client
            ->delete("organizations/$organizationId/addresses/$addressId")['status'];
     }
+
+    /** 
+     * Retrieve the list of users associated with the specified organization.
+     * 
+     * @param  int    $id Primary key for the OBR organization.
+     * @return array
+     */
+    public function getUsers(int $id)
+    {
+        return $this->client->get("organizations/$id/users");
+    }
 }
