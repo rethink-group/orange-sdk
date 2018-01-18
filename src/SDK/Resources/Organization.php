@@ -4,13 +4,15 @@ namespace RethinkGroup\SDK\Resources;
 
 class Organization extends AbstractResource
 {
+    protected $entityName = 'organizations';
+
     /**
      * {@inheritdoc}
      */
     public function find(int $id)
     {
         try {
-            return $this->client->get("organizations/$id")['data'];
+            return $this->client->get($this->entityName, [$id])['data'];
         } catch (\RequestException $e) {
             return false;
         }
@@ -41,8 +43,23 @@ class Organization extends AbstractResource
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function search(string $term, string $searchFields = null)
+    {
+        $params = [];
+        $params['search'] = trim($term);
+
+        if ( ! is_null($searchFields) ) {
+            $params['searchFields'] = $searchFields;
+        }
+
+        return  $this->client->get('organizations', $params)['data']['organizations'];
+    }
+
+    /**
      * Create an address and associate with the specified organization.
-     * 
+     *
      * @param int $id The organization's primary key.
      * @param array $data The address data.
      * @param bool $force Whether to check for address validation or not.
@@ -59,7 +76,7 @@ class Organization extends AbstractResource
 
     /**
      * Disassociate with the specified organization.
-     * 
+     *
      * @param int $organizationId   The organization's primary key.
      * @param int $addressId        The address's primary key.
      * @return bool Success of disassociation.
@@ -70,14 +87,36 @@ class Organization extends AbstractResource
            ->delete("organizations/$organizationId/addresses/$addressId")['status'];
     }
 
-    /** 
+    /**
      * Retrieve the list of users associated with the specified organization.
-     * 
+     *
      * @param  int    $id Primary key for the OBR organization.
      * @return array
      */
     public function getUsers(int $id)
     {
         return $this->client->get("organizations/$id/users")['data']['users'];
+    }
+
+    /**
+     * Retrieve a list of organizations by name search.
+     *
+     * @param string $name  The name to search for.
+     * @return array
+     */
+    public function searchByName(string $name)
+    {
+        return $this->search($name, 'name:like');
+    }
+
+    /**
+     * Retrieve a list of organizations by multiple fields.
+     *
+     * @param string $name  The name to search for.
+     * @return array
+     */
+    public function omniSearch(string $searchTerm)
+    {
+        return $this->search($searchTerm, 'name:like;phone_number:like');
     }
 }
