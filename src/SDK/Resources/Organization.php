@@ -4,13 +4,15 @@ namespace RethinkGroup\SDK\Resources;
 
 class Organization extends AbstractResource
 {
+    protected $entityName = 'organizations';
+
     /**
      * {@inheritdoc}
      */
     public function find(int $id)
     {
         try {
-            return $this->client->get("organizations/$id")['data'];
+            return $this->client->get($this->entityName, [$id])['data'];
         } catch (\RequestException $e) {
             return false;
         }
@@ -38,6 +40,21 @@ class Organization extends AbstractResource
     public function delete(int $id)
     {
         //
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function search(string $term, string $searchFields = null)
+    {
+        $params = [];
+        $params['search'] = trim($term);
+
+        if ( ! is_null($searchFields) ) {
+            $params['searchFields'] = $searchFields;
+        }
+
+        return  $this->client->get('organizations', $params)['data']['organizations'];
     }
 
     /**

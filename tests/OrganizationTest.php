@@ -9,7 +9,7 @@ class OrganizationTest extends TestCase
 
     protected function getTestOrganization()
     {
-        $this->organization = $this->obr->organizations()->find(1)['organization'];
+        $this->organization = $this->obr->organizations()->find(1)['organizations'][0];
     }
 
     public function testCanRetrieveOrganizationById()
@@ -63,5 +63,16 @@ class OrganizationTest extends TestCase
         // Reverse the change
         $correct = substr($updatedName, 0, strlen($updatedName) - 1);
         $this->obr->organizations()->update($this->organization['id'], ['name' => $correct]);
+    }
+
+    public function testOrganizationCanBeSearchedByName()
+    {
+        $this->getTestOrganization();
+
+        $searchTerm = substr($this->organization['name'], 0, 5);
+
+        $response = $this->obr->organizations()->search($searchTerm, 'name:like');
+
+        $this->assertEquals($response[0]['id'], $this->organization['id']);
     }
 }
