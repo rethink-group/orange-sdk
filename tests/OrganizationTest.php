@@ -71,7 +71,29 @@ class OrganizationTest extends TestCase
 
         $searchTerm = substr($this->organization['name'], 0, 5);
 
-        $response = $this->obr->organizations()->search($searchTerm, 'name:like');
+        $response = $this->obr->organizations()->searchByName($searchTerm);
+
+        $this->assertEquals($response[0]['id'], $this->organization['id']);
+    }
+
+    public function testOrganizationCanOmniSearchedByName()
+    {
+        $this->getTestOrganization();
+
+        $searchTerm = $this->organization['name'];
+
+        $response = $this->obr->organizations()->omniSearch($searchTerm);
+
+        $this->assertEquals($response[0]['id'], $this->organization['id']);
+    }
+
+    public function testOrganizationCanOmniSearchedByPhone()
+    {
+        $this->getTestOrganization();
+
+        $searchTerm = $this->organization['phone_number'];
+
+        $response = $this->obr->organizations()->omniSearch($searchTerm);
 
         $this->assertEquals($response[0]['id'], $this->organization['id']);
     }

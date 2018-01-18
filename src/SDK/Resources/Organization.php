@@ -59,7 +59,7 @@ class Organization extends AbstractResource
 
     /**
      * Create an address and associate with the specified organization.
-     * 
+     *
      * @param int $id The organization's primary key.
      * @param array $data The address data.
      * @param bool $force Whether to check for address validation or not.
@@ -76,7 +76,7 @@ class Organization extends AbstractResource
 
     /**
      * Disassociate with the specified organization.
-     * 
+     *
      * @param int $organizationId   The organization's primary key.
      * @param int $addressId        The address's primary key.
      * @return bool Success of disassociation.
@@ -87,14 +87,36 @@ class Organization extends AbstractResource
            ->delete("organizations/$organizationId/addresses/$addressId")['status'];
     }
 
-    /** 
+    /**
      * Retrieve the list of users associated with the specified organization.
-     * 
+     *
      * @param  int    $id Primary key for the OBR organization.
      * @return array
      */
     public function getUsers(int $id)
     {
         return $this->client->get("organizations/$id/users")['data']['users'];
+    }
+
+    /**
+     * Retrieve a list of organizations by name search.
+     *
+     * @param string $name  The name to search for.
+     * @return array
+     */
+    public function searchByName(string $name)
+    {
+        return $this->search($name, 'name:like');
+    }
+
+    /**
+     * Retrieve a list of organizations by multiple fields.
+     *
+     * @param string $name  The name to search for.
+     * @return array
+     */
+    public function omniSearch(string $searchTerm)
+    {
+        return $this->search($searchTerm, 'name:like;phone_number:like');
     }
 }
