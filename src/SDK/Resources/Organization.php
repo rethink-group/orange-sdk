@@ -12,7 +12,7 @@ class Organization extends AbstractResource
     public function find(int $id)
     {
         try {
-            return $this->client->get($this->entityName, [$id])['data'];
+            return $this->client->get($this->entityName, [$id])['data']['organizations'][0];
         } catch (\RequestException $e) {
             return false;
         }
