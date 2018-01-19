@@ -9,7 +9,7 @@ class OrganizationTest extends TestCase
 
     protected function getTestOrganization()
     {
-        $this->organization = $this->obr->organizations()->find(1)['organizations'][0];
+        $this->organization = $this->obr->organizations()->find(1);
     }
 
     public function testCanRetrieveOrganizationById()
