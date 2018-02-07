@@ -17,23 +17,24 @@ class UserTest extends TestCase
     {
         $user = [
             'name' => 'Testing User',
-            'email_address' => 'test+' . time() . '@example.com',
+            'email_address' => 'test+' . rand(1,10000) . '@example.com',
             'password' => 'test123'
         ];
 
         $response = $this->obr->users()->store($user);
 
-        $this->assertGreaterThan(1, $response['user']['id']);
+        $this->assertGreaterThan(0, $response['user']['id']);
     }
 
     /**
      * @expectedException   GuzzleHttp\Exception\ClientException
+     * @expectedExceptionMessage   Validation Errors
      */
     public function testUserWithDuplicateEmailIsBlocked()
     {
         $user = [
             'name' => 'Testing User',
-            'email_address' => 'test+' . time() . '@example.com',
+            'email_address' => 'test+' . rand(1,10000) . '@example.com',
             'password' => 'test123'
         ];
 
@@ -41,9 +42,44 @@ class UserTest extends TestCase
         $this->obr->users()->store($user);
 
         // Attempt to create the user again
-        $response = $this->obr->users()->store($user);
+        $this->obr->users()->store($user);
+    }
 
-        $this->assertEquals('Validation Errors', $response['message']);
+    public function testUserCanBeFoundOrCreated()
+    {
+        $user = [
+            'name' => 'Testing User',
+            'email_address' => 'test+' . rand(1,10000) . '@example.com',
+            'password' => 'test123'
+        ];
+
+        // Create the user the first time
+        $this->obr->users()->store($user);
+
+        // Attempt to create the user again
+        $response = $this->obr->users()->createOrAuthenticate($user);
+
+        $this->assertGreaterThan(0, $response['user_id']);
+    }
+
+    /**
+     * @expectedException   GuzzleHttp\Exception\ClientException
+     * @expectedExceptionMessage  Unauthorized
+     */
+    public function testExistingUserMustHaveCorrectCredentials()
+    {
+        $user = [
+            'name' => 'Testing User',
+            'email_address' => 'test+' . rand(1,10000) . '@example.com',
+            'password' => 'test123'
+        ];
+
+        // Create the user the first time
+        $this->obr->users()->store($user);
+
+        // Attempt to create the user again, but with incorrect credentials.
+        $user['password'] = 'wrong';
+        $response = $this->obr->users()->createOrAuthenticate($user);
     }
 
     public function testCanRetrieveUserById()

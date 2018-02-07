@@ -47,4 +47,18 @@ class User extends AbstractResource
             return false;
         }
     }
+
+    /**
+     * Attempt to create the user, but if they exist, check their authentication.
+     */
+    public function createOrAuthenticate(array $data)
+    {
+        try {
+            return $this->store($data);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            // If we receive a "unique" exception, then attempt to authenticate them.
+            return $this->client->authentication()
+                ->checkCredentials($data['email_address'], $data['password']);
+        }
+    }
 }
