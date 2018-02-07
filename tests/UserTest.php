@@ -26,6 +26,26 @@ class UserTest extends TestCase
         $this->assertGreaterThan(1, $response['user']['id']);
     }
 
+    /**
+     * @expectedException   GuzzleHttp\Exception\ClientException
+     */
+    public function testUserWithDuplicateEmailIsBlocked()
+    {
+        $user = [
+            'name' => 'Testing User',
+            'email_address' => 'test+' . time() . '@example.com',
+            'password' => 'test123'
+        ];
+
+        // Create the user the first time
+        $this->obr->users()->store($user);
+
+        // Attempt to create the user again
+        $response = $this->obr->users()->store($user);
+
+        $this->assertEquals('Validation Errors', $response['message']);
+    }
+
     public function testCanRetrieveUserById()
     {
         $this->getTestUser();
