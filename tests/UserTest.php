@@ -13,14 +13,17 @@ class UserTest extends TestCase
         $this->user = $this->obr->users()->find(1)['user'];
     }
 
-    protected function storeUser(array $data)
+    public function testNewUserCanBeCreated()
     {
-        $this->obr->users()->store($data);
-    }
+        $user = [
+            'name' => 'Testing User',
+            'email_address' => 'test+' . time() . '@example.com',
+            'password' => 'test123'
+        ];
 
-    protected function deleteUser(int $id)
-    {
-        $this->obr->users()->delete($id);
+        $response = $this->obr->users()->store($user);
+
+        $this->assertGreaterThan(1, $response['user']['id']);
     }
 
     public function testCanRetrieveUserById()
