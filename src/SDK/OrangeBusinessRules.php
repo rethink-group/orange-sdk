@@ -131,12 +131,10 @@ class OrangeBusinessRules
         $client = $this->getHttpClient();
         $fullParams = [];
 
-        if (strtolower($method) === 'get')
-        {
+        if (strtolower($method) === 'get') {
             $url = $url . '?' . http_build_query($params);
         }
-        else
-        {
+        else {
             $fullParams['body'] = json_encode($params);
         }
 

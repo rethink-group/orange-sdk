@@ -61,4 +61,12 @@ class User extends AbstractResource
                 ->checkCredentials($data['email_address'], $data['password']);
         }
     }
+
+    /**
+     * Retrieve the user by their email address.
+     */
+    public function findByEmail(string $email)
+    {
+        return $this->client->get("users", ['search' => "email_address:$email"])['data'];
+    }
 }

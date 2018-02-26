@@ -88,4 +88,13 @@ class UserTest extends TestCase
 
         $this->assertEquals($this->user['id'], 1);
     }
+
+    public function testCanRetrieveUserByEmail()
+    {
+        $this->getTestUser();
+
+        $response = $this->obr->users()->findByEmail($this->user['email_address']);
+
+        $this->assertEquals($this->user['id'], $response['users'][0]['id']);
+    }
 }
