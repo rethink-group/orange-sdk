@@ -41,6 +41,6 @@ class Address extends AbstractResource
      */
     public function delete(int $id)
     {
-        //
+        return $this->client->delete("addresses/$id");
     }
 }
