@@ -20,6 +20,15 @@ class Address extends AbstractResource
         //
     }
 
+    public function storeForOrganization(int $organizationId, array $data, bool $force = false)
+    {
+        if ($force) {
+            $data['not_validated'] = true;
+        }
+
+        return $this->client->post("organizations/$organizationId/addresses", $data)['data'];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -28,7 +37,7 @@ class Address extends AbstractResource
         if ($force) {
             $data['not_validated'] = true;
         }
-        
+
         if (count($data) > 1) {
             return $this->client->put("addresses/$id", $data)['data'];
         } else {
