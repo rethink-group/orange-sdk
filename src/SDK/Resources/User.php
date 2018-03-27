@@ -56,6 +56,6 @@ class User extends AbstractResource
      */
     public function authorize(int $id)
     {
-        return $this->client->post('authorize', ['user_id' => $id])['data'];
+        return $this->client->post('authorize', ['user_id' => $id])['data']['authorizations'];
     }
 }
