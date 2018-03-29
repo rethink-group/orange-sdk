@@ -257,4 +257,20 @@ class OrangeBusinessRules
     {
         return $this->getResource('User');
     }
+
+    /**
+     * @return \RethinkGroup\SDK\Resource\AccessControl
+     */
+    public function accessControl()
+    {
+        return $this->getResource('AccessControl');
+    }
+
+     /**
+     * @return \RethinkGroup\SDK\Resource\OrganizationsRolesSkusUsers
+     */
+    public function organizationsRolesSkusUsers()
+    {
+        return $this->getResource('OrganizationsRolesSkusUsers');
+    }
 }
