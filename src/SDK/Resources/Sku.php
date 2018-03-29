@@ -2,7 +2,7 @@
 
 namespace RethinkGroup\SDK\Resources;
 
-class AccessControl extends AbstractResource
+class Sku extends AbstractResource
 {
     /**
      * {@inheritdoc}
