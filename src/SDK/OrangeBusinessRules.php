@@ -266,11 +266,19 @@ class OrangeBusinessRules
         return $this->getResource('AccessControl');
     }
 
-     /**
+    /**
      * @return \RethinkGroup\SDK\Resource\OrganizationsRolesSkusUsers
      */
     public function organizationsRolesSkusUsers()
     {
         return $this->getResource('OrganizationsRolesSkusUsers');
+    }
+
+    /**
+     * @return \RethinkGroup\SDK\Resource\Sku
+     */
+    public function skus()
+    {
+        return $this->getResource('Sku');
     }
 }
