@@ -12,7 +12,7 @@ class Organization extends AbstractResource
     public function find(int $id, bool $withTrashed = false)
     {
         try {
-            $parameters = $withTrashed ? [$withTrashed] : [];
+            $parameters = $withTrashed ? ['macro' => 'withTrashed'] : [];
 
             return $this->client->get("{$this->entityName}/$id", $parameters)['data']['organization'];
         } catch (\RequestException $e) {
