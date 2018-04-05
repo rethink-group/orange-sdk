@@ -10,10 +10,9 @@ class User extends AbstractResource
     public function find(int $id, bool $withTrashed = false)
     {
         try {
-            $url = "users/$id";
-            $url = $withTrashed ? $url . '?macro=withTrashed' : $url;
+            $parameters = $withTrashed ? [$withTrashed] : [];
 
-            return $this->client->get($url)['data'];
+            return $this->client->get("users/$id", $parameters)['data'];
         } catch (\RequestException $e) {
             return false;
         }
