@@ -7,10 +7,13 @@ class User extends AbstractResource
     /**
      * {@inheritdoc}
      */
-    public function find(int $id)
+    public function find(int $id, bool $withTrashed = false)
     {
         try {
-            return $this->client->get("users/$id")['data'];
+            $url = "users/$id";
+            $url = $withTrashed ? $url . '?macro=withTrashed' : $url;
+
+            return $this->client->get($url)['data'];
         } catch (\RequestException $e) {
             return false;
         }
