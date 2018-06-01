@@ -97,4 +97,10 @@ class OrganizationTest extends TestCase
 
         $this->assertEquals($response[0]['id'], $this->organization['id']);
     }
+
+    public function testListOfOrganizationsCanBeRetrieved()
+    {
+        $response = $this->obr->organizations()->get();
+        $this->assertGreaterThan(0, count($response));
+    }
 }

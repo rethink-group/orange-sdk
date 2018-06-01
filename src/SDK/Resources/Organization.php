@@ -21,6 +21,26 @@ class Organization extends AbstractResource
     }
 
     /**
+     * Get a list of all organizations
+     * @param  bool|boolean $withTrashed Whether to include organizations that have been deleted
+     * @return array
+     */
+    public function get(bool $withTrashed = false)
+    {
+        try {
+            $parameters = $withTrashed ? ['macro' => 'withTrashed'] : [];
+
+            // We're going to restrict any eager loading since
+            // this will be too big of a response to handle.
+            $parameters[] = ['noEagerLoads' => 'true'];
+
+            return $this->client->get($this->entityName, $parameters)['data']['organizations'];
+        } catch (\RequestException $e) {
+            return false;
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function store(array $data)
