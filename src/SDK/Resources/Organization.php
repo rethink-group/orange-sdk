@@ -144,6 +144,11 @@ class Organization extends AbstractResource
         return $this->search($searchTerm, 'name:like;phone_number:like');
     }
 
+    /**
+     * Retrieve a list of organizations by the updated_at column
+     * @param  string $date The YYYY-MM-DD timestamp to search by
+     * @return array
+     */
     public function getByUpdatedAt(string $date)
     {
         return $this->search($date, 'updated_at:>=', true);
