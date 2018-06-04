@@ -67,7 +67,7 @@ class Organization extends AbstractResource
     /**
      * {@inheritdoc}
      */
-    public function search(string $term, string $searchFields = null)
+    public function search(string $term, string $searchFields = null, bool $disableEagerLoading = false)
     {
         $params = [];
         $params['search'] = trim($term);
@@ -75,6 +75,8 @@ class Organization extends AbstractResource
         if ( ! is_null($searchFields) ) {
             $params['searchFields'] = $searchFields;
         }
+
+        $params['noEagerLoads'] = $disableEagerLoading;
 
         return  $this->client->get('organizations', $params)['data']['organizations'];
     }
@@ -144,6 +146,6 @@ class Organization extends AbstractResource
 
     public function getByUpdatedAt(string $date)
     {
-        return $this->search($date, 'updated_at:>=');
+        return $this->search($date, 'updated_at:>=', true);
     }
 }
