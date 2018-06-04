@@ -103,4 +103,10 @@ class OrganizationTest extends TestCase
         $response = $this->obr->organizations()->get();
         $this->assertGreaterThan(0, count($response));
     }
+
+    public function testOrganizationsCanBeRetrievedByUpdated()
+    {
+        $response = $this->obr->organizations()->getByUpdatedAt('2018-03-01');
+        $this->assertGreaterThan(0, count($response));
+    }
 }

@@ -141,4 +141,9 @@ class Organization extends AbstractResource
     {
         return $this->search($searchTerm, 'name:like;phone_number:like');
     }
+
+    public function getByUpdatedAt(string $date)
+    {
+        return $this->search($date, 'updated_at:>=');
+    }
 }
