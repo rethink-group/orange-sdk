@@ -153,4 +153,14 @@ class Organization extends AbstractResource
     {
         return $this->search($date, 'updated_at:>=', true);
     }
+
+    /**
+     * Retrieve the organization's access control records
+     * @param  int    $id Primary key of the organization
+     * @return array
+     */
+    public function getAccess(int $id)
+    {
+        return $this->client->get("organizations/$id/accessControls")['data']['accessControls'];
+    }
 }
