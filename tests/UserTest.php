@@ -29,4 +29,15 @@ class UserTest extends TestCase
 
         $this->assertEquals($this->user['id'], 1);
     }
+
+    public function testCanUpdateUser()
+    {
+        $this->getTestUser();
+
+        $password = 'test' . time();
+
+        $response = $this->obr->users()->update($this->user['id'], ['password' => $password]);
+
+        $this->assertNotEmpty($response);
+    }
 }

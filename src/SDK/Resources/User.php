@@ -35,7 +35,7 @@ class User extends AbstractResource
      */
     public function update(int $id, array $data)
     {
-        //
+        return $this->client->patch("users/$id", $data)['data']['user'];
     }
 
     /**
