@@ -4,12 +4,16 @@ namespace RethinkGroup\SDK\Resources;
 
 class Sku extends AbstractResource
 {
+    protected $entityName = 'skus';
+
     /**
      * {@inheritdoc}
      */
-    public function find(int $id)
+    public function find(int $id, bool $withTrashed = false)
     {
-        //
+        $parameters = $withTrashed ? ['macro' => 'withTrashed'] : [];
+
+        return $this->client->get("{$this->entityName}/$id", $parameters)['data']['sku'];
     }
 
     /**
