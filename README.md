@@ -44,3 +44,6 @@ OBR_SECRET=test123
 ],
 ```
 
+## Testing
+
+Take note that the tests in this package are very fragile because they depend upon certain data being present in a local installation of OBR. This could be solved by implementing mocking, and should be done as soon as possible.
