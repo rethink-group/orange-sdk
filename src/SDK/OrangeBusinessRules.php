@@ -123,7 +123,7 @@ class OrangeBusinessRules
     public function getHttpClient()
     {
         if (!$this->httpClient) {
-            return new Client();
+            $this->setHttpClient(new Client());
         }
 
         return $this->httpClient;
