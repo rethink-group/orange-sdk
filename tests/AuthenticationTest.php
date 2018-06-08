@@ -11,10 +11,18 @@ class AuthenticationTest extends TestCase
      */
     public function testCanAuthenticateCredentials()
     {
-        $success = $this->obr->authentication()
-            ->checkCredentials('test@rethinkgroup.org', 'test123');
+        $email = 'test+' . time() . '@example.org';
 
-        $this->assertGreaterThan(0, $success['user_id']);
+        $this->obr->users()->store([
+            'name' => 'Test User ' . time(),
+            'email_address' => $email,
+            'password' => 'test123'
+        ]);
+
+        $response = $this->obr->authentication()
+            ->checkCredentials($email, 'test123');
+
+        $this->assertGreaterThan(0, $response['user_id']);
     }
 
     /**
@@ -25,6 +33,6 @@ class AuthenticationTest extends TestCase
     public function testCanRejectCredentials()
     {
         $this->obr->authentication()
-            ->checkCredentials('test@rethinkgroup.org', 'wrong');
+            ->checkCredentials('test@example.org', 'wrong');
     }
 }

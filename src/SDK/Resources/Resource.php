@@ -76,7 +76,7 @@ class Resource implements Contract
     public function store(array $data)
     {
         try {
-            return $this->client->post($this->entityName, $data)['data'];
+            return $this->client->post($this->entityName, $data)['data'][$this->singularEntityName];
         } catch (\RequestException $e) {
             return false;
         }
