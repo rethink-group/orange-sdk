@@ -53,7 +53,7 @@ class OrangeBusinessRules
 
     /**
      * @param string $url
-     * @return string
+     * @return RethinkGroup\SDK\OrangeBusinessRules
      */
     public function setUrl($url)
     {
@@ -72,7 +72,7 @@ class OrangeBusinessRules
 
     /**
      * @param string $clientId
-     * @return string
+     * @return RethinkGroup\SDK\OrangeBusinessRules
      */
     public function setClientId($clientId)
     {
@@ -91,7 +91,7 @@ class OrangeBusinessRules
 
     /**
      * @param string $clientSecret
-     * @return string
+     * @return RethinkGroup\SDK\OrangeBusinessRules
      */
     public function setClientSecret($clientSecret)
     {
@@ -114,10 +114,33 @@ class OrangeBusinessRules
 
     /**
      * @param Http\ClientInterface $client
+     * @return RethinkGroup\SDK\OrangeBusinessRules
      */
     public function setHttpClient($client)
     {
         $this->httpClient = $client;
+
+        return $this;
+    }
+
+    /**
+     * @return array An array of all resources
+     */
+    public function getResources()
+    {
+        return $this->resources;
+    }
+
+    /**
+     * Set all resources
+     * @param array $resources
+     * @return RethinkGroup\SDK\OrangeBusinessRules
+     */
+    public function setResources(array $resources = [])
+    {
+        $this->resources = $resources;
+
+        return $this;
     }
 
     /**
@@ -131,12 +154,9 @@ class OrangeBusinessRules
         $client = $this->getHttpClient();
         $fullParams = [];
 
-        if (strtolower($method) === 'get')
-        {
+        if (strtolower($method) === 'get') {
             $url = $url . '?' . http_build_query($params);
-        }
-        else
-        {
+        } else {
             $fullParams['body'] = json_encode($params);
         }
 
