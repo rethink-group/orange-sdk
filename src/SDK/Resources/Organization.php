@@ -22,7 +22,7 @@ class Organization extends Resource
 
         $params['noEagerLoads'] = $disableEagerLoading;
 
-        return  $this->client->get('organizations', $params)['data']['organizations'];
+        return  $this->client->get($this->entityName, $params)['data'][$this->entityName];
     }
 
     /**
@@ -39,7 +39,7 @@ class Organization extends Resource
             $data['not_validated'] = true;
         }
 
-        return $this->client->post("organizations/$id/addresses", $data)['data'];
+        return $this->client->post("{$this->entityName}/$id/addresses", $data)['data'];
     }
 
     /**
@@ -52,7 +52,7 @@ class Organization extends Resource
     public function disassociateAddress(int $organizationId, int $addressId)
     {
         return (bool) $this->client
-           ->delete("organizations/$organizationId/addresses/$addressId")['status'];
+           ->delete("{$this->entityName}/$organizationId/addresses/$addressId")['status'];
     }
 
     /**
@@ -63,7 +63,19 @@ class Organization extends Resource
      */
     public function getUsers(int $id)
     {
-        return $this->client->get("organizations/$id/users")['data']['users'];
+        return $this->client->get("{$this->entityName}/$id/users")['data']['users'];
+    }
+
+    /**
+     * Create and add a user to an organization
+     *
+     * @todo Add already created users to organizations
+     * @param int   $id   Primary key of the organization
+     * @param array $user The user's information as an array
+     */
+    public function addUser(int $id, array $user)
+    {
+        return $this->client->post("{$this->entityName}/$id/users", $user)['data'];
     }
 
     /**
@@ -105,6 +117,6 @@ class Organization extends Resource
      */
     public function getAccess(int $id)
     {
-        return $this->client->get("organizations/$id/accessControls")['data']['accessControls'];
+        return $this->client->get("{$this->entityName}/$id/accessControls")['data']['accessControls'];
     }
 }

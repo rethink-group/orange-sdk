@@ -4,12 +4,23 @@ namespace Tests;
 
 class OrganizationUsersTest extends TestCase
 {
+    protected $org;
+
     protected $address;
-    protected $organization;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->org = $this->obr->organizations()->store([
+            'name' => 'Test User Org ' . time(),
+            'phone_number' => '555-123-1234'
+        ]);
+    }
 
     protected function getTestOrganization()
     {
-        $this->organization = $this->obr->organizations()->find(1);
+        $this->org = $this->obr->organizations()->find(1);
     }
 
     public function testOrganizationIdIsRequiredToGetUsers()
@@ -21,9 +32,13 @@ class OrganizationUsersTest extends TestCase
 
     public function testCanRetrieveOrganizationUsers()
     {
-        $this->getTestOrganization();
+        $this->obr->organizations()->addUser($this->org['id'],
+            [
+            'name' => 'Testing User ' . time(),
+            'email_address' => 'testingorg+' . time() . '@example.com',
+        ]);
 
-        $users = $this->obr->organizations()->getUsers($this->organization['id']);
+        $users = $this->obr->organizations()->getUsers($this->org['id']);
 
         $this->assertNotEmpty($users);
     }
