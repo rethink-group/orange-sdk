@@ -20,6 +20,6 @@ class AddressTest extends TestCase
 
         $address = $this->obr->addresses()->update(1, $data);
         
-        $this->assertEquals($address['address']['line1'], $data['line1']);
+        $this->assertEquals($address['line1'], $data['line1']);
     }
 }

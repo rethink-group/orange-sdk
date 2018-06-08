@@ -15,7 +15,7 @@ class OrganizationTest extends TestCase
     public function testCanRetrieveOrganizationById()
     {
         $this->getTestOrganization();
-        
+
         $this->assertEquals($this->organization['id'], 1);
     }
 
@@ -33,7 +33,7 @@ class OrganizationTest extends TestCase
         ];
 
         $address = $this->obr->organizations()->addAddress(1, $data, true);
-        
+
         $this->assertNotEmpty($address['address']);
     }
 
@@ -42,11 +42,11 @@ class OrganizationTest extends TestCase
         $this->getTestOrganization();
 
         $organizationId = $this->organization['id'];
-        
+
         $addressId = $this->organization['addresses'][0]['id'];
 
         $response = $this->obr->organizations()->disassociateAddress($organizationId, $addressId);
-            
+
         $this->assertTrue($response);
     }
 
@@ -58,7 +58,7 @@ class OrganizationTest extends TestCase
 
         $response = $this->obr->organizations()->update($this->organization['id'], ['name' => $updatedName]);
 
-        $this->assertEquals($response['organization']['name'], $updatedName);
+        $this->assertEquals($response['name'], $updatedName);
 
         // Reverse the change
         $correct = substr($updatedName, 0, strlen($updatedName) - 1);

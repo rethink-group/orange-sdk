@@ -2,67 +2,11 @@
 
 namespace RethinkGroup\SDK\Resources;
 
-class Organization extends AbstractResource
+class Organization extends Resource
 {
-    protected $entityName = 'organizations';
+    public $entityName = 'organizations';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function find(int $id, bool $withTrashed = false)
-    {
-        try {
-            $parameters = $withTrashed ? ['macro' => 'withTrashed'] : [];
-
-            return $this->client->get("{$this->entityName}/$id", $parameters)['data']['organization'];
-        } catch (\RequestException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Get a list of all organizations
-     * @param  bool|boolean $withTrashed Whether to include organizations that have been deleted
-     * @return array
-     */
-    public function get(bool $withTrashed = false)
-    {
-        try {
-            $parameters = $withTrashed ? ['macro' => 'withTrashed'] : [];
-
-            // We're going to restrict any eager loading since
-            // this will be too big of a response to handle.
-            $parameters[] = ['noEagerLoads' => 'true'];
-
-            return $this->client->get($this->entityName, $parameters)['data']['organizations'];
-        } catch (\RequestException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function store(array $data)
-    {
-        //
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function update(int $id, array $data)
-    {
-        return $this->client->patch("organizations/$id", $data)['data'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function delete(int $id)
-    {
-        //
-    }
+    public $singularEntityName = 'organization';
 
     /**
      * {@inheritdoc}

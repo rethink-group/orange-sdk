@@ -10,7 +10,7 @@ class UserTest extends TestCase
 
     protected function getTestUser()
     {
-        $this->user = $this->obr->users()->find(1)['user'];
+        $this->user = $this->obr->users()->find(1);
     }
 
     protected function storeUser(array $data)

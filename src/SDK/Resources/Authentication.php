@@ -2,11 +2,13 @@
 
 namespace RethinkGroup\SDK\Resources;
 
-class Authentication extends AbstractResource
+class Authentication extends Resource
 {
+    protected $entityName = 'authenticate';
+
     /**
      * Authenticate a user's submitted credentials.
-     * 
+     *
      * @param string $email The user's email address.
      * @param string $password The user's unencrypted password.
      * @return array The response message.
@@ -18,43 +20,6 @@ class Authentication extends AbstractResource
             'password' => $password
         ];
 
-        return $this->client->post("authenticate", $data)['data'];
+        return $this->client->post($this->entityName, $data)['data'];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function find(int $id)
-    {
-        try {
-            return $this->client->get("organizations/$id")['data'];
-        } catch (\RequestException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function store(array $data)
-    {
-        //
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function update(int $id, array $data)
-    {
-        //
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function delete(int $id)
-    {
-        //
-    }
-
 }

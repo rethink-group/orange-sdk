@@ -2,23 +2,12 @@
 
 namespace RethinkGroup\SDK\Resources;
 
-class Address extends AbstractResource
+class Address extends Resource
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function find(int $id)
-    {
-        return $this->client->get("addresses/$id")['data'];
-    }
+    protected $entityName = 'addresses';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function store(array $data)
-    {
-        //
-    }
+    protected $singularEntityName = 'address';
+
 
     public function storeForOrganization(int $organizationId, array $data, bool $force = false)
     {
@@ -26,7 +15,7 @@ class Address extends AbstractResource
             $data['not_validated'] = true;
         }
 
-        return $this->client->post("organizations/$organizationId/addresses", $data)['data'];
+        return $this->client->post("organizations/$organizationId/{$this->entityName}", $data)['data'];
     }
 
     /**
@@ -39,17 +28,9 @@ class Address extends AbstractResource
         }
 
         if (count($data) > 1) {
-            return $this->client->put("addresses/$id", $data)['data'];
+            return $this->client->put("{$this->entityName}/$id", $data)['data'][$this->singularEntityName];
         } else {
-            return $this->client->patch("addresses/$id", $data)['data'];
+            return $this->client->patch("{$this->entityName}/$id", $data)['data'][$this->singularEntityName];
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function delete(int $id)
-    {
-        return $this->client->delete("addresses/$id");
     }
 }

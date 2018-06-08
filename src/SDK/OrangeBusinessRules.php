@@ -117,6 +117,7 @@ class OrangeBusinessRules
 
     /**
      * Gets the HTTP client that will be used to make curl calls to OBR
+     * If one is not set, instantiate a new object and return
      *
      * @return Http\ClientInterface
      */
@@ -191,6 +192,8 @@ class OrangeBusinessRules
         ];
 
         $url = $this->url . "/" . $url;
+
+
 
         $response = $client->request($method, $url, $fullParams)->getBody()->getContents();
 
