@@ -12,26 +12,29 @@ class OrangeBusinessRules
     protected $url = 'https://obr.rethinkgroup.org/api';
 
     /**
-     * @var string
+     * @var string The application ID for the calling application
      */
     protected $clientId;
 
     /**
-     * @var string
+     * @var string The application secret for the calling application
      */
     protected $clientSecret;
 
     /**
-     * @var Http\ClientInterface
+     * @var Http\ClientInterface The curl interface for interacting with OBR
      */
     protected $httpClient;
 
     /**
-     * @var array
+     * @var array The application resources such as user, organization, etc.
      */
     protected $resources = [];
 
     /**
+     * The constructor for the OrangeBusinessRules object, which requires a
+     * url, client id, and client secret to call and authorize against.
+     *
      * @param array $config
      */
     public function __construct(array $config)
@@ -44,6 +47,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Gets the OBR url that has been set
+     *
      * @return string
      */
     public function getUrl()
@@ -52,6 +57,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Sets the url by which to call OBR
+     *
      * @param string $url
      * @return RethinkGroup\SDK\OrangeBusinessRules
      */
@@ -63,6 +70,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Gets the client id that has been set to authenticate with OBR
+     *
      * @return string
      */
     public function getClientId()
@@ -71,6 +80,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Sets the client id to authenticate with OBR
+     *
      * @param string $clientId
      * @return RethinkGroup\SDK\OrangeBusinessRules
      */
@@ -82,6 +93,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Gets the client secret that has been set to authenticate with OBR
+     *
      * @return string
      */
     public function getClientSecret()
@@ -90,6 +103,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Sets the client secret to authenticate with OBR
+     *
      * @param string $clientSecret
      * @return RethinkGroup\SDK\OrangeBusinessRules
      */
@@ -101,6 +116,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Gets the HTTP client that will be used to make curl calls to OBR
+     *
      * @return Http\ClientInterface
      */
     public function getHttpClient()
@@ -113,6 +130,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Sets the HTTP client that will be used to make curl calls to OBR
+     *
      * @param Http\ClientInterface $client
      * @return RethinkGroup\SDK\OrangeBusinessRules
      */
@@ -124,6 +143,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Gets all resources
+     *
      * @return array An array of all resources
      */
     public function getResources()
@@ -133,6 +154,7 @@ class OrangeBusinessRules
 
     /**
      * Set all resources
+     *
      * @param array $resources
      * @return RethinkGroup\SDK\OrangeBusinessRules
      */
@@ -144,10 +166,12 @@ class OrangeBusinessRules
     }
 
     /**
-     * @param string $method
-     * @param string $url
-     * @param array  $params
-     * @return mixed
+     * Make the curl request to OBR
+     *
+     * @param string $method    The type of call to make
+     * @param string $url       The additional path to append to the OBR url
+     * @param array  $params    The body or URI parameters to pass with the call
+     * @return array            The response from the server
      */
     public function request($method, $url, $params = array())
     {
@@ -174,7 +198,8 @@ class OrangeBusinessRules
     }
 
     /**
-     * Make a GET HTTP request.
+     * Makes a GET HTTP request
+     *
      * @param  string $url
      * @param  array $params
      * @return mixed
@@ -185,7 +210,8 @@ class OrangeBusinessRules
     }
 
     /**
-     * Make a POST HTTP request.
+     * Makes a POST HTTP request
+     *
      * @param  string $url
      * @param  array $params
      * @return mixed
@@ -196,7 +222,8 @@ class OrangeBusinessRules
     }
 
     /**
-     * Make a PATCH HTTP request.
+     * Makes a PATCH HTTP request
+     *
      * @param  string $url
      * @param  array $params
      * @return mixed
@@ -207,7 +234,8 @@ class OrangeBusinessRules
     }
 
     /**
-     * Make a PUT HTTP request.
+     * Make a PUT HTTP request
+     *
      * @param  string $url
      * @param  array $params
      * @return mixed
@@ -218,7 +246,8 @@ class OrangeBusinessRules
     }
 
     /**
-     * Make a DELETE HTTP request.
+     * Make a DELETE HTTP request
+     *
      * @param  string $url
      * @return mixed
      */
@@ -238,8 +267,7 @@ class OrangeBusinessRules
     {
         $class = '\RethinkGroup\SDK\Resources\\' . $class;
 
-        if ( ! array_key_exists($class, $this->resources))
-        {
+        if ( ! array_key_exists($class, $this->resources)) {
             $this->resources[$class] = new $class($this);
         }
 
@@ -247,6 +275,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Retrieves the addresses resource
+     *
      * @return \RethinkGroup\SDK\Resource\Address
      */
     public function addresses()
@@ -255,6 +285,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Retrieves the authentication resource
+     *
      * @return \RethinkGroup\SDK\Resource\Authentication
      */
     public function authentication()
@@ -263,6 +295,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Retrieves the organizations resource
+     *
      * @return \RethinkGroup\SDK\Resource\Organization
      */
     public function organizations()
@@ -271,6 +305,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Retrieves the users resource
+     *
      * @return \RethinkGroup\SDK\Resource\User
      */
     public function users()
@@ -279,6 +315,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Retrieves the accessControl resource
+     *
      * @return \RethinkGroup\SDK\Resource\AccessControl
      */
     public function accessControl()
@@ -287,6 +325,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Retrieves the organizationsRolesSkusUsers resource
+     *
      * @return \RethinkGroup\SDK\Resource\OrganizationsRolesSkusUsers
      */
     public function organizationsRolesSkusUsers()
@@ -295,6 +335,8 @@ class OrangeBusinessRules
     }
 
     /**
+     * Retrieves the skus resource
+     *
      * @return \RethinkGroup\SDK\Resource\Sku
      */
     public function skus()
