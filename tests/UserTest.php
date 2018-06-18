@@ -30,6 +30,7 @@ class UserTest extends TestCase
         $user = $this->obr->users()->omniSearch('testing');
 
         $this->assertNotNull($user);
+        $this->assertArrayHasKey('email_address', $user);
     }
 
     public function testOmniSearchById()

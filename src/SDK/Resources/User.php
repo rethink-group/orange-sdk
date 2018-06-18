@@ -27,7 +27,7 @@ class User extends Resource
      */
     public function searchByEmail(string $email)
     {
-        return $this->search($email, 'email_address:like');
+        return $this->search($email, 'email_address:like')[0];
     }
 
     public function omniSearch($searchTerm)
