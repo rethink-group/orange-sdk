@@ -18,4 +18,15 @@ class User extends Resource
     {
         return $this->client->post('authorize', ['user_id' => $id])['data']['authorizations'];
     }
+
+    /**
+     * Retrieve a user by searching for their email address
+     *
+     * @param  string|null $email
+     * @return array
+     */
+    public function searchByEmail(string $email = null)
+    {
+        return $this->search($email, 'email_address:like');
+    }
 }
