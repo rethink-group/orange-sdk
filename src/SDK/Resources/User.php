@@ -18,4 +18,25 @@ class User extends Resource
     {
         return $this->client->post('authorize', ['user_id' => $id])['data']['authorizations'];
     }
+
+    /**
+     * Retrieve a user by searching for their email address
+     *
+     * @param  string|null $email
+     * @return array
+     */
+    public function searchByEmail(string $email)
+    {
+        return $this->search($email, 'email_address:like');
+    }
+
+    public function omniSearch($searchTerm)
+    {
+        // Support searching by id
+        if (is_int($searchTerm)) {
+            return $this->find($searchTerm);
+        }
+
+        return $this->searchByEmail($searchTerm);
+    }
 }
