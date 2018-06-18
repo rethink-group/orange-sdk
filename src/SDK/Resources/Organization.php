@@ -2,67 +2,11 @@
 
 namespace RethinkGroup\SDK\Resources;
 
-class Organization extends AbstractResource
+class Organization extends Resource
 {
-    protected $entityName = 'organizations';
+    public $entityName = 'organizations';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function find(int $id, bool $withTrashed = false)
-    {
-        try {
-            $parameters = $withTrashed ? ['macro' => 'withTrashed'] : [];
-
-            return $this->client->get("{$this->entityName}/$id", $parameters)['data']['organization'];
-        } catch (\RequestException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Get a list of all organizations
-     * @param  bool|boolean $withTrashed Whether to include organizations that have been deleted
-     * @return array
-     */
-    public function get(bool $withTrashed = false)
-    {
-        try {
-            $parameters = $withTrashed ? ['macro' => 'withTrashed'] : [];
-
-            // We're going to restrict any eager loading since
-            // this will be too big of a response to handle.
-            $parameters[] = ['noEagerLoads' => 'true'];
-
-            return $this->client->get($this->entityName, $parameters)['data']['organizations'];
-        } catch (\RequestException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function store(array $data)
-    {
-        //
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function update(int $id, array $data)
-    {
-        return $this->client->patch("organizations/$id", $data)['data'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function delete(int $id)
-    {
-        //
-    }
+    public $singularEntityName = 'organization';
 
     /**
      * {@inheritdoc}
@@ -78,7 +22,7 @@ class Organization extends AbstractResource
 
         $params['noEagerLoads'] = $disableEagerLoading;
 
-        return  $this->client->get('organizations', $params)['data']['organizations'];
+        return  $this->client->get($this->entityName, $params)['data'][$this->entityName];
     }
 
     /**
@@ -95,7 +39,7 @@ class Organization extends AbstractResource
             $data['not_validated'] = true;
         }
 
-        return $this->client->post("organizations/$id/addresses", $data)['data'];
+        return $this->client->post("{$this->entityName}/$id/addresses", $data)['data'];
     }
 
     /**
@@ -108,7 +52,7 @@ class Organization extends AbstractResource
     public function disassociateAddress(int $organizationId, int $addressId)
     {
         return (bool) $this->client
-           ->delete("organizations/$organizationId/addresses/$addressId")['status'];
+           ->delete("{$this->entityName}/$organizationId/addresses/$addressId")['status'];
     }
 
     /**
@@ -119,7 +63,19 @@ class Organization extends AbstractResource
      */
     public function getUsers(int $id)
     {
-        return $this->client->get("organizations/$id/users")['data']['users'];
+        return $this->client->get("{$this->entityName}/$id/users")['data']['users'];
+    }
+
+    /**
+     * Create and add a user to an organization
+     *
+     * @todo Add already created users to organizations
+     * @param int   $id   Primary key of the organization
+     * @param array $user The user's information as an array
+     */
+    public function addUser(int $id, array $user)
+    {
+        return $this->client->post("{$this->entityName}/$id/users", $user)['data'];
     }
 
     /**
@@ -161,6 +117,6 @@ class Organization extends AbstractResource
      */
     public function getAccess(int $id)
     {
-        return $this->client->get("organizations/$id/accessControls")['data']['accessControls'];
+        return $this->client->get("{$this->entityName}/$id/accessControls")['data']['accessControls'];
     }
 }

@@ -15,10 +15,7 @@ class TestCase extends PHPUnit_Framework_TestCase
         Mockery::close();
     }
 
-    /**
-     * @before
-     */
-    public function setupOBR()
+    public function setUp()
     {
         $dotenv = new \Dotenv\Dotenv(__DIR__ . '/..');
         $dotenv->load();

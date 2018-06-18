@@ -5,12 +5,22 @@ namespace RethinkGroup\SDK\Contracts;
 interface Resource
 {
     /**
+     * Retrieve a list of all resources
+     *
+     * @param  bool|boolean $withTrashed Whether to include the soft deleted items
+     * @param  bool         $noEagerLoads Whether to eager load relationships
+     * @return array
+     */
+    public function get(bool $withTrashed = false, bool $noEagerLoads = true);
+
+    /**
      * Retrieve the specified resource by primary key.
      *
-     * @param  int    $id The resource's primary key.
+     * @param  int   $id            The resource's primary key.
+     * @param  bool  $withTrashed   Whether to include the soft deleted items
      * @return array The retrieved resource.
      */
-    public function find(int $id);
+    public function find(int $id, bool $withTrashed = false);
 
     /**
      * Store a new resource in storage.
@@ -19,7 +29,7 @@ interface Resource
      * @return array The newly created resource.
      */
     public function store(array $data);
-    
+
     /**
      * Update the specified resource.
      *

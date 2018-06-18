@@ -4,22 +4,25 @@ namespace Tests;
 
 class OrganizationTest extends TestCase
 {
+    protected $org;
+
     protected $address;
-    protected $organization;
 
-    protected function getTestOrganization()
+    public function setUp()
     {
-        $this->organization = $this->obr->organizations()->find(1);
+        parent::setUp();
+
+        $this->org = $this->obr->organizations()->store([
+            'name' => 'Test Org ' . time(),
+            'phone_number' => '555-123-1234'
+        ]);
+
+        $this->addTestAddress();
+
+        $this->org = $this->obr->organizations()->find($this->org['id']);
     }
 
-    public function testCanRetrieveOrganizationById()
-    {
-        $this->getTestOrganization();
-        
-        $this->assertEquals($this->organization['id'], 1);
-    }
-
-    public function testCanStoreUnvalidatedAddress()
+    protected function addTestAddress()
     {
         $data = [
             'line1'     =>  '123 Main St.',
@@ -32,87 +35,61 @@ class OrganizationTest extends TestCase
             'longitude' =>  '-84.219606'
         ];
 
-        $address = $this->obr->organizations()->addAddress(1, $data, true);
-        
-        $this->assertNotEmpty($address['address']);
+        $this->obr->organizations()->addAddress($this->org['id'], $data, true);
+    }
+
+    public function testCanStoreUnvalidatedAddress()
+    {
+        $this->assertNotEmpty($this->org['addresses'][0]);
     }
 
     public function testCanDisassociateAddressFromOrganization()
     {
-        $this->getTestOrganization();
+        $addressId = $this->org['addresses'][0]['id'];
 
-        $organizationId = $this->organization['id'];
-        
-        $addressId = $this->organization['addresses'][0]['id'];
+        $response = $this->obr->organizations()->disassociateAddress($this->org['id'], $addressId);
 
-        $response = $this->obr->organizations()->disassociateAddress($organizationId, $addressId);
-            
         $this->assertTrue($response);
-    }
-
-    public function testOrganizationNameCanBeUpdated()
-    {
-        $this->getTestOrganization();
-
-        $updatedName = $this->organization['name'] . '!';
-
-        $response = $this->obr->organizations()->update($this->organization['id'], ['name' => $updatedName]);
-
-        $this->assertEquals($response['organization']['name'], $updatedName);
-
-        // Reverse the change
-        $correct = substr($updatedName, 0, strlen($updatedName) - 1);
-        $this->obr->organizations()->update($this->organization['id'], ['name' => $correct]);
     }
 
     public function testOrganizationCanBeSearchedByName()
     {
-        $this->getTestOrganization();
 
-        $searchTerm = substr($this->organization['name'], 0, 5);
+        $name = 'TestOrg' . $this->org['id'];
 
-        $response = $this->obr->organizations()->searchByName($searchTerm);
+        $this->obr->organizations()->update($this->org['id'], ['name' => $name]);
 
-        $this->assertEquals($response[0]['id'], $this->organization['id']);
+        $response = $this->obr->organizations()->searchByName($name);
+
+        $this->assertEquals($response[0]['id'], $this->org['id']);
     }
 
     public function testOrganizationCanOmniSearchedByName()
     {
-        $this->getTestOrganization();
 
-        $searchTerm = $this->organization['name'];
+        $name = 'TestOrg' . $this->org['id'];
 
-        $response = $this->obr->organizations()->omniSearch($searchTerm);
+        $this->obr->organizations()->update($this->org['id'], ['name' => $name]);
 
-        $this->assertEquals($response[0]['id'], $this->organization['id']);
+        $response = $this->obr->organizations()->omniSearch($name);
+
+        $this->assertEquals($response[0]['id'], $this->org['id']);
     }
 
     public function testOrganizationCanOmniSearchedByPhone()
     {
-        $this->getTestOrganization();
+        $phone = microtime();
 
-        $searchTerm = $this->organization['phone_number'];
+        $this->obr->organizations()->update($this->org['id'], ['phone_number' => $phone]);
 
-        $response = $this->obr->organizations()->omniSearch($searchTerm);
+        $response = $this->obr->organizations()->omniSearch($phone);
 
-        $this->assertEquals($response[0]['id'], $this->organization['id']);
-    }
-
-    public function testListOfOrganizationsCanBeRetrieved()
-    {
-        $response = $this->obr->organizations()->get();
-        $this->assertGreaterThan(0, count($response));
+        $this->assertEquals($response[0]['id'], $this->org['id']);
     }
 
     public function testOrganizationsCanBeRetrievedByUpdated()
     {
         $response = $this->obr->organizations()->getByUpdatedAt('2018-06-01');
-        $this->assertGreaterThan(0, count($response));
-    }
-
-    public function testOrganizationAccessCanBeRetrieved()
-    {
-        $response = $this->obr->organizations()->getAccess(110);
         $this->assertGreaterThan(0, count($response));
     }
 }
