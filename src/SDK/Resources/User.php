@@ -25,8 +25,18 @@ class User extends Resource
      * @param  string|null $email
      * @return array
      */
-    public function searchByEmail(string $email = null)
+    public function searchByEmail(string $email)
     {
         return $this->search($email, 'email_address:like');
+    }
+
+    public function omniSearch($searchTerm)
+    {
+        // Support searching by id
+        if (is_int($searchTerm)) {
+            return $this->find($searchTerm);
+        }
+
+        return $this->searchByEmail($searchTerm);
     }
 }

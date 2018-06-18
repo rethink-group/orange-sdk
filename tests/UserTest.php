@@ -24,4 +24,18 @@ class UserTest extends TestCase
 
         $this->assertNotNull($user);
     }
+
+    public function testOmniSearchByEmailAddress()
+    {
+        $user = $this->obr->users()->omniSearch('testing');
+
+        $this->assertNotNull($user);
+    }
+
+    public function testOmniSearchById()
+    {
+        $user = $this->obr->users()->omniSearch($this->user['id']);
+
+        $this->assertNotNull($user);
+    }
 }
