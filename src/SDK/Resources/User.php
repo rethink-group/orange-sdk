@@ -33,7 +33,7 @@ class User extends Resource
     public function omniSearch($searchTerm)
     {
         // Support searching by id
-        if (is_int($searchTerm)) {
+        if (is_numeric($searchTerm)) {
             return $this->find($searchTerm);
         }
 
