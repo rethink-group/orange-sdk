@@ -20,17 +20,17 @@ class UserTest extends TestCase
 
     public function testCanSearchForUserByEmail()
     {
-        $user = $this->obr->users()->searchByEmail('testing');
+        $firstUser = $this->obr->users()->searchByEmail('testing')[0];
 
-        $this->assertNotNull($user);
+        $this->assertNotNull($firstUser['email_address']);
     }
 
     public function testOmniSearchByEmailAddress()
     {
-        $user = $this->obr->users()->omniSearch('testing');
+        $firstUser = $this->obr->users()->omniSearch('testing')[0];
 
-        $this->assertNotNull($user);
-        $this->assertArrayHasKey('email_address', $user);
+        $this->assertNotNull($firstUser);
+        $this->assertArrayHasKey('email_address', $firstUser);
     }
 
     public function testOmniSearchById()
