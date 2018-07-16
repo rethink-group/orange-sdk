@@ -33,4 +33,14 @@ class Address extends Resource
             return $this->client->patch("{$this->entityName}/$id", $data)['data'][$this->singularEntityName];
         }
     }
+
+     /**
+     * Retrieve a list of addresses by the updated_at column
+     * @param  string $date The YYYY-MM-DD timestamp to search by
+     * @return array
+     */
+    public function getByUpdatedAt(string $date)
+    {
+        return $this->search($date, 'updated_at:>=', true);
+    }
 }
