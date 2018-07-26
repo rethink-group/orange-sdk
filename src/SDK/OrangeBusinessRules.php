@@ -346,4 +346,14 @@ class OrangeBusinessRules
     {
         return $this->getResource('Sku');
     }
+
+    /**
+     * Retrieves the churchDenomination resource
+     *
+     * @return \RethinkGroup\SDK\Resource\ChurchDenomination
+     */
+    public function churchDenominations()
+    {
+        return $this->getResource('ChurchDenomination');
+    }
 }

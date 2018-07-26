@@ -14,7 +14,7 @@ class UserTest extends TestCase
         $this->user = $this->obr->users()->store([
             'name' => 'Test User ' . rand(1,1000),
             'password' => 'test123',
-            'email_address' => 'testing+' . rand(1,1000) . '@rethinkgroup.org'
+            'email_address' => 'testing+' . time().rand(1,1000) . '@rethinkgroup.org'
         ]);
     }
 
