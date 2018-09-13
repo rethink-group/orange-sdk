@@ -27,6 +27,8 @@ class OrganizationsRolesSkusUsers extends Resource
     		$i++;
     	}
 
-    	return $this->search($terms, $searchFields)[0];
+        $result = $this->search($terms, $searchFields);
+
+    	return !empty($result) ? $result[0] : [];
     }
 }
