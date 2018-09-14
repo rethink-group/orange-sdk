@@ -6,6 +6,8 @@ class OrganizationsRolesSkusUsers extends Resource
 {
     public $entityName = 'organizationsRolesSkusUsers';
 
+    public $singularEntityName = 'organizationRoleSkuUser';
+
     /**
      * Search for a SOUR record.
      *
@@ -14,21 +16,21 @@ class OrganizationsRolesSkusUsers extends Resource
      */
     public function sourSearch($fields = [])
     {
-    	$terms = '';
-    	$searchFields = '';
+        $terms = '';
+        $searchFields = '';
 
-    	$i = 0;
-    	foreach ($fields as $key => $value) {
-    		$terms .= ($i > 0) ? 'and|' : '';
-    		$terms .= "$key:$value;";
+        $i = 0;
+        foreach ($fields as $key => $value) {
+            $terms .= ($i > 0) ? 'and|' : '';
+            $terms .= "$key:$value;";
 
-    		$searchFields .= "$key:=;";
+            $searchFields .= "$key:=;";
 
-    		$i++;
-    	}
+            $i++;
+        }
 
         $result = $this->search($terms, $searchFields);
 
-    	return !empty($result) ? $result[0] : [];
+        return !empty($result) ? $result[0] : [];
     }
 }

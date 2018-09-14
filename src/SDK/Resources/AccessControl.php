@@ -16,19 +16,21 @@ class AccessControl extends Resource
      */
     public function accessControlSearch($fields = [])
     {
-    	$terms = '';
-    	$searchFields = '';
+        $terms = '';
+        $searchFields = '';
 
-    	$i = 0;
-    	foreach ($fields as $key => $value) {
-    		$terms .= ($i > 0) ? 'and|' : '';
-    		$terms .= "$key:$value;";
+        $i = 0;
+        foreach ($fields as $key => $value) {
+            $terms .= ($i > 0) ? 'and|' : '';
+            $terms .= "$key:$value;";
 
-    		$searchFields .= "$key:=;";
+            $searchFields .= "$key:=;";
 
-    		$i++;
-    	}
+            $i++;
+        }
 
-    	return $this->search($terms, $searchFields);
+        $result = $this->search($terms, $searchFields);
+
+        return !empty($result) ? $result[0] : [];
     }
 }
