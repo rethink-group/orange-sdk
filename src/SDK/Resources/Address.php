@@ -23,11 +23,13 @@ class Address extends Resource
      */
     public function update(int $id, array $data, bool $force = false)
     {
+        $method = (count($data) > 1) ? 'put' : 'patch';
+
         if ($force) {
             $data['not_validated'] = true;
         }
 
-        if (count($data) > 1) {
+        if ($method == 'put') {
             return $this->client->put("{$this->entityName}/$id", $data)['data'][$this->singularEntityName];
         } else {
             return $this->client->patch("{$this->entityName}/$id", $data)['data'][$this->singularEntityName];
